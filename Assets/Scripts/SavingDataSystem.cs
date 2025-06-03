@@ -10,6 +10,7 @@ public static class SavingDataSystem
         string json = JsonUtility.ToJson(PlayerData.userData, true);
         File.WriteAllText(savePath, json);
         Debug.Log("Guardado en: " + savePath);
+        EventManager.UserDataSaved();
     }
 
     public static void Load()
@@ -19,6 +20,7 @@ public static class SavingDataSystem
             string json = File.ReadAllText(savePath);
             PlayerData.userData = JsonUtility.FromJson<UserData>(json);
             Debug.Log("Cargado desde: " + savePath);
+            EventManager.UserDataLoaded();
         }
         else
         {

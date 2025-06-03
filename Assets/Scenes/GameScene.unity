@@ -421,6 +421,7 @@ MonoBehaviour:
   _audioButton: {fileID: 555285059}
   _lobbyButton: {fileID: 46396144}
   _popUpObject: {fileID: 2052732070}
+  _soundEffect: {fileID: 8300000, guid: 741b8bfc5fd0d4c47914798ed4f76fbe, type: 3}
 --- !u!4 &357455367
 Transform:
   m_ObjectHideFlags: 0
@@ -1181,7 +1182,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9297ffcadbfbd3439448cd3a043e8bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  soundEffect: {fileID: 8300000, guid: 741b8bfc5fd0d4c47914798ed4f76fbe, type: 3}
   _progressBar: {fileID: 426009727}
 --- !u!82 &955913335
 AudioSource:

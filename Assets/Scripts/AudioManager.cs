@@ -6,13 +6,20 @@ using System.Collections;
 public class AudioManager : MonoBehaviour
 {
     private AudioSource _source;
-
-    public AudioClip soundEffect;
     [SerializeField] private Image _progressBar;
 
     private Coroutine _progressCoroutine;
 
-    public event Action OnClipFinished;
+
+    void OnEnable()
+    {
+        EventManager.OnAudioRequested += PlaySound;
+    }
+
+    void OnDisable()
+    {
+        EventManager.OnAudioRequested -= PlaySound;
+    }
 
     void Awake()
     {
@@ -55,6 +62,6 @@ public class AudioManager : MonoBehaviour
 
         _progressBar.fillAmount = 0f;
             
-        OnClipFinished?.Invoke();
+        EventManager.AudioClipFinished();
     }
 }

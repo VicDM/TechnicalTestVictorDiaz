@@ -12,6 +12,16 @@ public class SceneLoader : MonoBehaviour
     [SerializeField]private TMP_Text _progressText;
     [SerializeField]private Image _progressBar;
 
+    void OnEnable()
+    {
+        EventManager.OnSceneRequested += ChangeScene;
+    }
+
+    void OnDisable()
+    {
+        EventManager.OnSceneRequested -= ChangeScene;
+    }
+
     void Awake()
     {
         if(instance != null && instance != this)

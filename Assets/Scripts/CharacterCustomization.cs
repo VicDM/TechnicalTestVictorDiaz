@@ -10,10 +10,20 @@ public class CharacterCustomization : MonoBehaviour
     private int _weaponType;
 
     [SerializeField]private Button _playButton;
+
+    void OnEnable()
+    {
+        EventManager.OnUserDataSaved += StartGame;
+    }
+
+    void OnDisable()
+    {
+        EventManager.OnUserDataSaved -= StartGame;
+    }
     
     void Start()
     {
-        _playButton.onClick.AddListener(StartGame);
+        _playButton.onClick.AddListener(SaveCustomization);
         
         LoadCustomization();        
     }
@@ -52,10 +62,13 @@ public class CharacterCustomization : MonoBehaviour
         PlayerData.userData.userWeapon = _weaponType;
     }
 
+    void SaveCustomization()
+    {
+        EventManager.RequestSave();
+    }
+
     void StartGame()
     {
-        SavingDataSystem.Save();
-        
-        SceneLoader.instance.ChangeScene(2);
+        EventManager.RequestScene(2);
     }
 }

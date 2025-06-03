@@ -10,6 +10,18 @@ public class LoginManager : MonoBehaviour
     [SerializeField]private Toggle _passwordToggle;
     [SerializeField]private TMP_Text _errorText;
     [SerializeField]private Button _loginButton;
+
+    void OnEnable()
+    {
+        EventManager.OnUserDataLoaded += UpdateUIData;
+        EventManager.OnUserDataSaved += SaveFinished;
+    }
+
+    void OnDisable()
+    {
+        EventManager.OnUserDataLoaded -= UpdateUIData;
+        EventManager.OnUserDataSaved -= SaveFinished;
+    }
     
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -18,13 +30,11 @@ public class LoginManager : MonoBehaviour
         _loginButton.onClick.AddListener(Login);
         _passwordToggle.onValueChanged.AddListener(PasswordVisibility);
 
-        LoadUserData();
+        EventManager.RequestLoad();
     }
 
-    void LoadUserData()
+    void UpdateUIData()
     {
-        SavingDataSystem.Load();
-
         _emailField.text = PlayerData.userData.userEmail;
         _passwordField.text = PlayerData.userData.userPassword;
     }
@@ -47,8 +57,6 @@ public class LoginManager : MonoBehaviour
 
         _errorText.text = "";
         _loginButton.interactable = false;
-
-        SceneLoader.instance.ChangeScene(1);
     }
 
     void SaveLoginInfo()
@@ -56,7 +64,13 @@ public class LoginManager : MonoBehaviour
         PlayerData.userData.userEmail = _emailField.text;
         PlayerData.userData.userPassword = _passwordField.text;
 
-        SavingDataSystem.Save();
+        //SavingDataSystem.Save();
+        EventManager.RequestSave();
+    }
+
+    void SaveFinished()
+    {
+        EventManager.RequestScene(1);
     }
 
     bool IsEmailValid(string email)

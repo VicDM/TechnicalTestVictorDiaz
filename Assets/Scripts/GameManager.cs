@@ -8,21 +8,17 @@ public class GameManager : MonoBehaviour
     [SerializeField]private Button _audioButton;
     [SerializeField]private Button _lobbyButton;
     [SerializeField]private GameObject _popUpObject;
-    private AudioManager _audioManager;
+
+    [SerializeField]private AudioClip _soundEffect;
 
     void OnEnable()
     {
-        _audioManager.OnClipFinished += ActivatePopUp;
+        EventManager.OnAudioClipFinished += ActivatePopUp;
     }
 
-    void OnDisale()
+    void OnDisable()
     {
-        _audioManager.OnClipFinished -= ActivatePopUp;
-    }
-
-    void Awake()
-    {
-        _audioManager = FindAnyObjectByType<AudioManager>();
+        EventManager.OnAudioClipFinished -= ActivatePopUp;
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -34,13 +30,14 @@ public class GameManager : MonoBehaviour
 
     void Lobby()
     {
-        SceneLoader.instance.ChangeScene(1);
+        EventManager.RequestScene(1);
+        //SceneLoader.instance.ChangeScene(1);
     }
 
     void StartAudio()
     {
         _audioButton.interactable = false;
-        _audioManager.PlaySound(_audioManager.soundEffect);
+        EventManager.RequestAudio(_soundEffect);
     }
 
     void ActivatePopUp()
